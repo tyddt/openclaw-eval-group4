@@ -1,4 +1,10 @@
 //暂时保存
+# Day6 多场景Token消耗专项测试用例
+## 测试说明
+1. 测试基准：复用Day3单任务基线（Linux运维搜索任务、Python代码编写任务标准Token基线值）；
+2. 测试入口：经过指令验证，当前OpenClaw 2026.5.7版本无openclaw run/agents run等非交互任务指令，**仅可使用openclaw chat交互式会话开展全量测试**；
+3. 环境约束：无有效OpenAI API密钥，模型调用全部401鉴权失败，无法采集真实Token消耗数据，依托基线做理论对比验收。
+
 Case1 并发多会话场景 Token 消耗测试
 前置：已有单任务标准 Token 基线（运维搜索、Python 编码基准值）
 操作：多终端并行拉起openclaw chat，多会话同时下发【Linux 运维命令查询】基线任务；
