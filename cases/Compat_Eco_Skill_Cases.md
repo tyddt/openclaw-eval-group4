@@ -16,15 +16,15 @@
 ### 用例3 插件 --force 强制版本升级兼容性测试（防版本退化）
 前置条件：base64、base64-encode 已完成初始安装并就绪
 操作步骤
-1. openclaw skills install --force base64、openclaw skills install --force base64-encode强制覆盖升级
-2. 升级后执行openclaw skills list查看状态
+1. openclaw skills install --force base64、openclaw skills install --force base64-encode强制覆盖升级；
+2. 升级后执行openclaw skills list查看状态。
 预期结果：新版本覆盖安装成功，插件仍保持 Ready 就绪，配置不丢失、功能无降级、无兼容性退化。
 
 ### 用例4 重复多次强制重装，验证磁盘 / 内存资源泄漏
 前置条件：base64-encode 已正常安装
 操作步骤
-1. 连续 3 次执行openclaw skills install --force base64-encode反复覆盖重装
-2. 查看openclaw logs系统运行日志，检查本地插件目录
+1. 连续 3 次执行openclaw skills install --force base64-encode反复覆盖重装；
+2. 查看openclaw logs系统运行日志，检查本地插件目录。
 预期结果：多次重装无冗余残留目录、无临时垃圾文件、日志无内存异常报错，不存在磁盘 / 内存资源泄漏。
 
 ### 用例5 异常 / 依赖缺失破损插件安装容错测试
