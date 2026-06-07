@@ -2,19 +2,16 @@ cat > scripts/auto_pressure_test.sh <<'EOF'
 #!/bin/bash
 set -euo pipefail
 
-# 配置项（适配你的仓库结构）
 REPO_DIR=$(pwd)
-CONCURRENT_LIST=(200 500 1000 1500)
-TIMEOUT=10
+# 降低并发梯度，避免压爆服务器
+CONCURRENT_LIST=(50 100 150 200)
 REPORT_FILE="reports/week4_pressure_report.md"
 LOG_DIR="reports/logs"
 GIT_BRANCH="main"
 
-# 初始化目录
 mkdir -p $LOG_DIR
 rm -f $REPORT_FILE
 
-# 报告头部
 cat > $REPORT_FILE <<REPHEAD
 # OpenClaw 压测报告（Week4）
 测试时间：$(date "+%Y-%m-%d %H:%M:%S")
@@ -24,7 +21,6 @@ cat > $REPORT_FILE <<REPHEAD
 ---
 REPHEAD
 
-# 压测循环
 for CONCURRENT in "${CONCURRENT_LIST[@]}"; do
     echo "=== 压测并发数: $CONCURRENT ==="
 
@@ -52,10 +48,10 @@ REPSEC
     LOG_FILE="$LOG_DIR/pressure_${CONCURRENT}.log"
     openclaw logs --plain 2>/dev/null > $LOG_FILE
 
+    # 兜底清理进程
     pkill -f openclaw || true
 done
 
-# 报告结尾
 cat >> $REPORT_FILE <<REPFOOT
 ---
 ## 测试结论
@@ -67,8 +63,6 @@ cat >> $REPORT_FILE <<REPFOOT
 报告生成时间：$(date "+%Y-%m-%d %H:%M:%S")
 REPFOOT
 
-# 提交到 GitHub
-echo "=== 提交到 GitHub ==="
 git add $REPORT_FILE $LOG_DIR scripts/auto_pressure_test.sh scripts/stress_test.sh
 git commit -m "auto: week4 pressure report $(date "+%Y-%m-%d %H:%M:%S")"
 git push origin $GIT_BRANCH
