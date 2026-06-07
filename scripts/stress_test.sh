@@ -1,3 +1,4 @@
+cat > scripts/stress_test.sh <<'EOF'
 #!/bin/bash
 set -euo pipefail
 
@@ -10,7 +11,7 @@ CONCURRENT=$1
 TASK="查询linux常用运维命令汇总"
 TIMEOUT=10
 
-echo "开始并发压测，并发数: $CONCURRENT，超时时间: ${TIMEOUT}s"
+echo "开始压测，并发数: $CONCURRENT，超时: ${TIMEOUT}s"
 echo "=============================="
 
 pids=()
@@ -21,6 +22,6 @@ do
 done
 
 wait "${pids[@]}" 2>/dev/null
-
 echo "=============================="
-echo "压测执行完毕（超时进程已被终止）"
+echo "压测执行完毕"
+EOF
